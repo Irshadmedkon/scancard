@@ -1,0 +1,62 @@
+{
+  "name": "taponn-backend",
+  "version": "2.0.0",
+  "description": "TapOnn Digital Business Card Backend API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "setup": "node setup-database.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:connections": "node test-connections.js"
+  },
+  "keywords": [
+    "digital-business-card",
+    "nfc",
+    "qr-code",
+    "api",
+    "nodejs",
+    "express"
+  ],
+  "author": "TapOnn Team",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1693.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.9.0",
+    "colors": "^1.4.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-rate-limit": "^6.8.1",
+    "helmet": "^7.0.0",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.6.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^7.0.12",
+    "qrcode": "^1.5.3",
+    "razorpay": "^2.9.2",
+    "redis": "^4.6.7",
+    "sharp": "^0.32.4",
+    "stripe": "^12.18.0",
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
