@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAPONN - Auth Testing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-box">
+            <div class="logo">
+                <h1>🎴 TAPONN</h1>
+                <p>Digital Business Card Platform</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="form-container active">
+                <h2>Login</h2>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" onclick="showForm('register')">Register</a></p>
+                    <p><a href="#" onclick="showForm('forgot')">Forgot Password?</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="form-container">
+                <h2>Register</h2>
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="registerPassword" placeholder="Create a password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" onclick="showForm('login')">Login</a></p>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotForm" class="form-container">
+                <h2>Forgot Password</h2>
+                <p class="form-description">Enter your email to receive a password reset token.</p>
+                <form onsubmit="handleForgotPassword(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="forgotEmail" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Reset Token</button>
+                </form>
+                <div class="form-footer">
+                    <p>Remember your password? <a href="#" onclick="showForm('login')">Login</a></p>
+                    <p>Have a reset token? <a href="#" onclick="showForm('reset')">Reset Password</a></p>
+                </div>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div id="resetForm" class="form-container">
+                <h2>Reset Password</h2>
+                <p class="form-description">Enter the token from your email and your new password.</p>
+                <form onsubmit="handleResetPassword(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reset Token</label>
+                        <input type="text" id="resetToken" placeholder="Enter token from email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="resetPassword" placeholder="Enter new password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="resetConfirmPassword" placeholder="Confirm new password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Reset Password</button>
+                </form>
+                <div class="form-footer">
+                    <p>Back to <a href="#" onclick="showForm('login')">Login</a></p>
+                </div>
+            </div>
+
+            <!-- Dashboard (After Login) -->
+            <div id="dashboard" class="form-container">
+                <h2>Welcome! 🎉</h2>
+                <div class="user-info">
+                    <p><strong>Name:</strong> <span id="userName"></span></p>
+                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                    <p><strong>Phone:</strong> <span id="userPhone"></span></p>
+                </div>
+                
+                <!-- Dashboard Navigation -->
+                <div class="dashboard-nav">
+                    <button onclick="showDashboardSection('profile')" class="btn-nav active">Profile</button>
+                    <button onclick="showDashboardSection('menu')" class="btn-nav">Menu</button>
+                    <button onclick="showDashboardSection('catalog')" class="btn-nav">Catalog</button>
+                    <button onclick="showDashboardSection('booking')" class="btn-nav">Booking</button>
+                    <button onclick="showDashboardSection('leads')" class="btn-nav">Leads</button>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profileSection" class="dashboard-section active">
+                    <h3>Create/Update Profile</h3>
+                    <form onsubmit="handleCreateProfile(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Profile Name *</label>
+                                <input type="text" id="profileName" placeholder="My Business" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="profileUsername" placeholder="mybusiness">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" id="profileCompany" placeholder="Company Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Designation</label>
+                                <input type="text" id="profileDesignation" placeholder="CEO">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="profileBio" placeholder="Tell us about yourself..." rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Website</label>
+                                <input type="url" id="profileWebsite" placeholder="https://example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Public Profile</label>
+                                <select id="profilePublic">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Profile</button>
+                    </form>
+                </div>
+
+                <!-- Menu Section -->
+                <div id="menuSection" class="dashboard-section">
+                    <h3>Add Menu Item</h3>
+                    <form onsubmit="handleAddMenuItem(event)">
+                        <div class="form-group">
+                            <label>Profile ID *</label>
+                            <input type="number" id="menuProfileId" placeholder="Enter profile ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category ID *</label>
+                            <input type="number" id="menuCategoryId" placeholder="Enter category ID" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Item Name *</label>
+                                <input type="text" id="menuItemName" placeholder="Burger" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Price *</label>
+                                <input type="number" id="menuPrice" placeholder="299" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="menuDescription" placeholder="Delicious burger..." rows="2"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Discount Price</label>
+                                <input type="number" id="menuDiscountPrice" placeholder="249" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Preparation Time (min)</label>
+                                <input type="number" id="menuPrepTime" placeholder="15">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Calories</label>
+                                <input type="number" id="menuCalories" placeholder="500">
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="menuIsVeg">
+                                    <option value="true">Veg</option>
+                                    <option value="false">Non-Veg</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (comma separated)</label>
+                            <input type="text" id="menuTags" placeholder="spicy, popular, new">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Menu Item</button>
+                    </form>
+                </div>
+
+                <!-- Catalog Section -->
+                <div id="catalogSection" class="dashboard-section">
+                    <h3>Add Product</h3>
+                    <form onsubmit="handleAddProduct(event)">
+                        <div class="form-group">
+                            <label>Profile ID *</label>
+                            <input type="number" id="catalogProfileId" placeholder="Enter profile ID" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Product Name *</label>
+                                <input type="text" id="productName" placeholder="Digital Business Card" required>
+                            </div>
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <input type="text" id="productSku" placeholder="DBC-001">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="productDescription" placeholder="Product description..." rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Price *</label>
+                                <input type="number" id="productPrice" placeholder="1500" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Discount Price</label>
+                                <input type="number" id="productDiscountPrice" placeholder="1200" step="0.01">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Stock Quantity</label>
+                                <input type="number" id="productStock" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" id="productCategory" placeholder="Cards">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Brand</label>
+                                <input type="text" id="productBrand" placeholder="TAPONN">
+                            </div>
+                            <div class="form-group">
+                                <label>Tags</label>
+                                <input type="text" id="productTags" placeholder="digital, nfc, premium">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+                </div>
+
+                <!-- Booking Section -->
+                <div id="bookingSection" class="dashboard-section">
+                    <h3>Create Booking Service</h3>
+                    <form onsubmit="handleCreateBookingService(event)">
+                        <div class="form-group">
+                            <label>Profile ID *</label>
+                            <input type="number" id="bookingProfileId" placeholder="Enter profile ID" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Service Name *</label>
+                                <input type="text" id="serviceName" placeholder="Consultation" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Duration (minutes) *</label>
+                                <input type="number" id="serviceDuration" placeholder="60" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="serviceDescription" placeholder="Service description..." rows="2"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Price *</label>
+                                <input type="number" id="servicePrice" placeholder="2000" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Buffer Time (minutes)</label>
+                                <input type="number" id="serviceBuffer" placeholder="15">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Service</button>
+                    </form>
+                </div>
+
+                <!-- Leads Section -->
+                <div id="leadsSection" class="dashboard-section">
+                    <h3>Add Lead</h3>
+                    <form onsubmit="handleAddLead(event)">
+                        <div class="form-group">
+                            <label>Profile ID *</label>
+                            <input type="number" id="leadProfileId" placeholder="Enter profile ID" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input type="text" id="leadName" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="leadEmail" placeholder="john@example.com">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="leadPhone" placeholder="+923001234567">
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" id="leadCompany" placeholder="ABC Corp">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="leadMessage" placeholder="Lead message..." rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Source</label>
+                            <input type="text" id="leadSource" placeholder="website, referral, etc.">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Lead</button>
+                    </form>
+                </div>
+
+                <div class="token-info">
+                    <p><strong>Access Token:</strong></p>
+                    <textarea id="accessToken" readonly></textarea>
+                </div>
+                <button onclick="handleLogout()" class="btn btn-danger">Logout</button>
+            </div>
+
+            <!-- Message Box -->
+            <div id="messageBox" class="message-box"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: taponn-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: scancard
+      MYSQL_USER: taponn
+      MYSQL_PASSWORD: taponn123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./COMPLETE_DATABASE_SETUP.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - taponn-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: taponn-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - taponn-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Node.js Backend API
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: taponn-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      
+      # Database
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: taponn
+      DB_PASSWORD: taponn123
+      DB_NAME: scancard
+      
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      
+      # JWT
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRES_IN: 7d
+      
+      # Email (Optional - configure if needed)
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USER: your-email@gmail.com
+      EMAIL_PASSWORD: your-app-password
+      
+      # Upload (Local storage)
+      UPLOAD_PROVIDER: local
+      UPLOAD_PATH: ./uploads
+      MAX_FILE_SIZE: 5242880
+      
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - taponn-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  taponn-network:
+    driver: bridge

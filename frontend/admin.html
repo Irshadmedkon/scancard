@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAPONN - Complete Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>🎴 TAPONN</h2>
+                <p>Admin Panel</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" onclick="showModule('auth')">🔐 Auth</button>
+                <button class="nav-item" onclick="showModule('profile')">👤 Profile</button>
+                <button class="nav-item" onclick="showModule('menu')">🍔 Menu</button>
+                <button class="nav-item" onclick="showModule('catalog')">🛍️ Catalog</button>
+                <button class="nav-item" onclick="showModule('booking')">📅 Booking</button>
+                <button class="nav-item" onclick="showModule('leads')">📋 Leads</button>
+                <button class="nav-item" onclick="showModule('upload')">📤 Upload</button>
+                <button class="nav-item" onclick="showModule('stats')">📊 Stats</button>
+                <button class="nav-item" onclick="showModule('analytics')">📈 Analytics</button>
+                <button class="nav-item" onclick="showModule('search')">🔍 Search</button>
+                <button class="nav-item" onclick="showModule('payment')">💳 Payment</button>
+                <button class="nav-item" onclick="showModule('subscription')">💎 Subscription</button>
+                <button class="nav-item" onclick="showModule('team')">👥 Team</button>
+                <button class="nav-item" onclick="showModule('notification')">🔔 Notifications</button>
+                <button class="nav-item" onclick="showModule('webhook')">🔗 Webhooks</button>
+                <button class="nav-item" onclick="showModule('apikey')">🔑 API Keys</button>
+                <button class="nav-item" onclick="showModule('nfc')">📱 NFC</button>
+                <button class="nav-item" onclick="showModule('batch')">📦 Batch</button>
+                <button class="nav-item" onclick="showModule('export')">💾 Export</button>
+            </nav>
+            
+            <div class="user-section">
+                <p id="currentUser">Not logged in</p>
+                <button onclick="logout()" class="btn-logout">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <h1 id="moduleTitle">Authentication</h1>
+                <div class="token-display">
+                    <small>Token:</small>
+                    <input type="text" id="tokenDisplay" readonly>
+                </div>
+            </div>
+
+            <div class="content-area" id="contentArea">
+                <!-- Content will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Message Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

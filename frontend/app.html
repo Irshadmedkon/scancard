@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAPONN - Digital Business Card Platform</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>🎴 TAPONN</h1>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#docs" class="nav-link">API Docs</a>
+                <a href="#dashboard" class="nav-link" id="dashboardLink" style="display:none;">Dashboard</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="loginBtn" onclick="showPage('login')">Login</button>
+                <button class="btn btn-primary" id="signupBtn" onclick="showPage('signup')">Sign Up</button>
+                <button class="btn btn-outline" id="logoutBtn" style="display:none;" onclick="handleLogout()">Logout</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Digital Business Cards<br>for Modern Professionals</h1>
+                    <p class="hero-subtitle">Create, share, and manage your digital business card with NFC technology. Track analytics, capture leads, and grow your network.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-large btn-primary" onclick="showPage('signup')">Get Started Free</button>
+                        <button class="btn btn-large btn-outline" onclick="showPage('docs')">View API Docs</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="card-preview">
+                        <div class="preview-card">
+                            <div class="preview-header">
+                                <div class="preview-avatar">👤</div>
+                                <div class="preview-info">
+                                    <h3>John Doe</h3>
+                                    <p>CEO, Tech Corp</p>
+                                </div>
+                            </div>
+                            <div class="preview-links">
+                                <span class="preview-link">🔗 Website</span>
+                                <span class="preview-link">📧 Email</span>
+                                <span class="preview-link">📱 Phone</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Page -->
+        <section id="features" class="page">
+            <div class="container">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to manage your digital presence</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3>Profile Management</h3>
+                        <p>Create unlimited digital business card profiles with custom branding</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🍔</div>
+                        <h3>Menu System</h3>
+                        <p>Perfect for restaurants - manage menus, categories, and items</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛍️</div>
+                        <h3>Product Catalog</h3>
+                        <p>Showcase your products with images, prices, and inventory</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📅</div>
+                        <h3>Booking System</h3>
+                        <p>Accept appointments and bookings directly from your card</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Lead Capture</h3>
+                        <p>Capture and manage leads with built-in CRM features</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <h3>Analytics</h3>
+                        <p>Track views, clicks, and engagement with detailed analytics</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>NFC Technology</h3>
+                        <p>Tap to share with NFC-enabled business cards</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>API Access</h3>
+                        <p>Full REST API with 133+ endpoints for developers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Page -->
+        <section id="pricing" class="page">
+            <div class="container">
+                <h2 class="section-title">Simple Pricing</h2>
+                <p class="section-subtitle">Choose the plan that fits your needs</p>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Free</h3>
+                        <div class="price">$0<span>/month</span></div>
+                        <ul class="features-list">
+                            <li>✅ 1 Digital Card</li>
+                            <li>✅ Basic Analytics</li>
+                            <li>✅ 100 Leads/month</li>
+                            <li>✅ Email Support</li>
+                        </ul>
+                        <button class="btn btn-outline btn-block" onclick="showPage('signup')">Get Started</button>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <div class="badge">Popular</div>
+                        <h3>Pro</h3>
+                        <div class="price">$29<span>/month</span></div>
+                        <ul class="features-list">
+                            <li>✅ 10 Digital Cards</li>
+                            <li>✅ Advanced Analytics</li>
+                            <li>✅ Unlimited Leads</li>
+                            <li>✅ Priority Support</li>
+                            <li>✅ Custom Branding</li>
+                            <li>✅ API Access</li>
+                        </ul>
+                        <button class="btn btn-primary btn-block" onclick="showPage('signup')">Start Free Trial</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <h3>Enterprise</h3>
+                        <div class="price">$99<span>/month</span></div>
+                        <ul class="features-list">
+                            <li>✅ Unlimited Cards</li>
+                            <li>✅ White Label</li>
+                            <li>✅ Team Management</li>
+                            <li>✅ Dedicated Support</li>
+                            <li>✅ Custom Integration</li>
+                            <li>✅ SLA Guarantee</li>
+                        </ul>
+                        <button class="btn btn-outline btn-block" onclick="showPage('signup')">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Docs Page -->
+        <section id="docs" class="page">
+            <div class="container">
+                <h2 class="section-title">API Documentation</h2>
+                <p class="section-subtitle">Complete REST API with 133+ endpoints</p>
+                
+                <div class="docs-content">
+                    <div class="docs-sidebar">
+                        <h4>Modules</h4>
+                        <a href="#" class="docs-link active" onclick="showDocs('auth')">Authentication</a>
+                        <a href="#" class="docs-link" onclick="showDocs('profile')">Profile</a>
+                        <a href="#" class="docs-link" onclick="showDocs('menu')">Menu</a>
+                        <a href="#" class="docs-link" onclick="showDocs('catalog')">Catalog</a>
+                        <a href="#" class="docs-link" onclick="showDocs('booking')">Booking</a>
+                        <a href="#" class="docs-link" onclick="showDocs('leads')">Leads</a>
+                        <a href="#" class="docs-link" onclick="showDocs('analytics')">Analytics</a>
+                        <a href="#" class="docs-link" onclick="showDocs('payment')">Payment</a>
+                    </div>
+                    
+                    <div class="docs-main" id="docsMain">
+                        <div class="docs-section">
+                            <h3>Getting Started</h3>
+                            <p>Base URL: <code>http://localhost:5000/api/v1</code></p>
+                            <p>All API requests require authentication except for registration and login.</p>
+                            
+                            <h4>Authentication</h4>
+                            <pre><code>POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/forgot-password
+POST /api/v1/auth/reset-password</code></pre>
+                            
+                            <h4>Example Request</h4>
+                            <pre><code>curl -X POST http://localhost:5000/api/v1/auth/login \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"user@example.com","password":"password123"}'</code></pre>
+                            
+                            <button class="btn btn-primary" onclick="window.open('admin.html', '_blank')">Open API Testing Panel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="login" class="page">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h2>Welcome Back</h2>
+                    <p>Login to your TAPONN account</p>
+                    
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" required placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#" onclick="showPage('signup')">Sign up</a></p>
+                        <p><a href="#" onclick="showPage('forgot')">Forgot password?</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signup Page -->
+        <section id="signup" class="page">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h2>Create Account</h2>
+                    <p>Start your digital business card journey</p>
+                    
+                    <form id="signupForm" onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" placeholder="+923001234567">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" required minlength="6" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#" onclick="showPage('login')">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="page">
+            <div class="dashboard-container">
+                <h2>Dashboard</h2>
+                <p>Welcome back, <span id="userName"></span>!</p>
+                
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" onclick="window.open('admin.html', '_blank')">
+                        🚀 Open Full Admin Panel
+                    </button>
+                    <button class="btn btn-outline" onclick="showPage('docs')">
+                        📚 View API Docs
+                    </button>
+                </div>
+                
+                <div class="dashboard-info">
+                    <p>Use the <strong>Admin Panel</strong> to test all 133 API endpoints across 19 modules.</p>
+                    <p>Your access token: <code id="userToken"></code></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

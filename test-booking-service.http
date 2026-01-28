@@ -1,0 +1,70 @@
+### Test Booking Service Endpoints
+
+### 1. Login to get token
+# @name login
+POST http://localhost:5000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@taponn.com",
+  "password": "password123"
+}
+
+### 2. Get existing services (public)
+GET http://localhost:5000/api/v1/booking/5/services
+
+### 2.1 Get single service by ID (public)
+GET http://localhost:5000/api/v1/booking/5/services/2
+
+### 3. Create a new service
+POST http://localhost:5000/api/v1/booking/5/services
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "service_name": "Hair Cut",
+  "description": "Professional hair cutting service",
+  "duration_minutes": 30,
+  "price": 25.00,
+  "buffer_time": 10
+}
+
+### 4. Update service (this was the missing endpoint)
+PUT http://localhost:5000/api/v1/booking/5/services/1
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "service_name": "Premium Hair Cut",
+  "description": "Premium hair cutting service with styling",
+  "duration_minutes": 45,
+  "price": 35.00,
+  "buffer_time": 15
+}
+
+### 5. Get services again to verify update
+GET http://localhost:5000/api/v1/booking/5/services
+
+### 6. Delete service
+DELETE http://localhost:5000/api/v1/booking/5/services/1
+Authorization: Bearer {{login.response.body.data.access_token}}
+
+### 7. Get bookings
+GET http://localhost:5000/api/v1/booking/5/bookings
+Authorization: Bearer {{login.response.body.data.access_token}}
+
+### 8. Set availability
+POST http://localhost:5000/api/v1/booking/5/availability
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "day_of_week": 1,
+  "start_time": "09:00:00",
+  "end_time": "17:00:00",
+  "is_available": true
+}
+
+### 9. Get availability
+GET http://localhost:5000/api/v1/booking/5/availability
+Authorization: Bearer {{login.response.body.data.access_token}}

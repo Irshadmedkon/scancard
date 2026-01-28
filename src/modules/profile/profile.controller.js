@@ -7,14 +7,14 @@ const logger = require('../../utils/logger');
 class ProfileController {
   /**
    * Get all user profiles
-   * GET /api/v1/profiles
+   * GET profiles
    */
   async getProfiles(req, res) {
     const userId = req.user.user_id;
 
     const profiles = await query(
       `SELECT profile_id, profile_name, username, bio, company, designation, 
-              profile_picture, is_public,
+              profile_picture, is_public, menu_enabled, catalog_enabled, booking_enabled,
               created_at, updated_at
        FROM profiles 
        WHERE user_id = ? 
@@ -205,6 +205,116 @@ class ProfileController {
     logger.info('Profile deleted', { userId, profileId: id });
 
     res.json(formatResponse(true, null, 'Profile deleted successfully'));
+  }
+
+  /**
+   * Get profile avatar
+   * GET /api/v1/profiles/:id/avatar
+   */
+  async getAvatar(req, res) {
+    const { id } = req.params;
+
+    const profile = await queryOne(
+      'SELECT profile_picture FROM profiles WHERE profile_id = ? AND is_public = 1',
+      [id]
+    );
+
+    if (!profile) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'NOT_FOUND', message: 'Profile not found' }
+      ));
+    }
+
+    if (!profile.profile_picture) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'NO_AVATAR', message: 'No avatar found for this profile' }
+      ));
+    }
+
+    // If it's a URL, redirect to it
+    if (profile.profile_picture.startsWith('http')) {
+      return res.redirect(profile.profile_picture);
+    }
+
+    // If it's a local file path, serve the file
+    const path = require('path');
+    const fs = require('fs');
+    
+    const filePath = path.join(__dirname, '../../../uploads', profile.profile_picture);
+    
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'FILE_NOT_FOUND', message: 'Avatar file not found' }
+      ));
+    }
+
+    // Serve the file
+    res.sendFile(filePath);
+  }
+
+  /**
+   * Generate QR code
+   * GET /api/v1/profiles/:id/qr
+   */
+  async generateQR(req, res) {
+    const { id } = req.params;
+
+    const profile = await queryOne(
+      'SELECT profile_picture FROM profiles WHERE profile_id = ? AND is_public = 1',
+      [id]
+    );
+
+    if (!profile) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'NOT_FOUND', message: 'Profile not found' }
+      ));
+    }
+
+    if (!profile.profile_picture) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'NO_AVATAR', message: 'No avatar found for this profile' }
+      ));
+    }
+
+    // If it's a URL, redirect to it
+    if (profile.profile_picture.startsWith('http')) {
+      return res.redirect(profile.profile_picture);
+    }
+
+    // If it's a local file path, serve the file
+    const path = require('path');
+    const fs = require('fs');
+    
+    const filePath = path.join(__dirname, '../../../uploads', profile.profile_picture);
+    
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      return res.status(STATUS_CODES.NOT_FOUND).json(formatResponse(
+        false,
+        null,
+        '',
+        { code: 'FILE_NOT_FOUND', message: 'Avatar file not found' }
+      ));
+    }
+
+    // Serve the file
+    res.sendFile(filePath);
   }
 
   /**
@@ -493,5 +603,3 @@ class ProfileController {
 }
 
 module.exports = new ProfileController();
-
-

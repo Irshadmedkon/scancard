@@ -1,0 +1,103 @@
+### COMPLETE BOOKING ENDPOINTS TEST - 100% WORKING
+
+@baseUrl = http://localhost:5000/api/v1
+@profileId = 5
+
+### 1. Login to get token
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@taponn.com",
+  "password": "password123"
+}
+
+### 2. Get all services (PUBLIC)
+GET {{baseUrl}}/booking/{{profileId}}/services
+
+### 3. Get single service by ID (PUBLIC)
+GET {{baseUrl}}/booking/{{profileId}}/services/2
+
+### 4. Create new service (PROTECTED)
+POST {{baseUrl}}/booking/{{profileId}}/services
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "service_name": "Hair Cut",
+  "description": "Professional hair cutting service",
+  "duration_minutes": 30,
+  "price": 25.00,
+  "buffer_time": 10
+}
+
+### 5. Update service (PROTECTED)
+PUT {{baseUrl}}/booking/{{profileId}}/services/2
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "service_name": "Premium Website Development Consultation",
+  "description": "2-hour premium consultation session",
+  "duration_minutes": 120,
+  "price": 12000.00,
+  "buffer_time": 15
+}
+
+### 6. Create booking (PUBLIC)
+POST {{baseUrl}}/booking/{{profileId}}/book
+Content-Type: application/json
+
+{
+  "service_id": 2,
+  "customer_name": "Ahmed Khan",
+  "customer_email": "ahmed@example.com",
+  "customer_phone": "+923001234567",
+  "booking_date": "2026-02-01",
+  "booking_time": "10:00:00",
+  "notes": "First time customer"
+}
+
+### 7. Get all bookings (PROTECTED)
+GET {{baseUrl}}/booking/{{profileId}}/bookings
+Authorization: Bearer {{login.response.body.data.access_token}}
+
+### 8. Get single booking by ID (PROTECTED)
+GET {{baseUrl}}/booking/{{profileId}}/bookings/1
+Authorization: Bearer {{login.response.body.data.access_token}}
+
+### 9. Update booking status (PROTECTED)
+PUT {{baseUrl}}/booking/{{profileId}}/bookings/1/status
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+### 10. Set availability (PROTECTED)
+POST {{baseUrl}}/booking/{{profileId}}/availability
+Authorization: Bearer {{login.response.body.data.access_token}}
+Content-Type: application/json
+
+{
+  "day_of_week": 1,
+  "start_time": "09:00:00",
+  "end_time": "17:00:00",
+  "is_available": true
+}
+
+### 11. Get availability (PUBLIC)
+GET {{baseUrl}}/booking/{{profileId}}/availability
+
+### 12. Get availability with filters (PUBLIC)
+GET {{baseUrl}}/booking/{{profileId}}/availability?date=2026-02-01&service_id=2
+
+### 13. Delete service (PROTECTED)
+DELETE {{baseUrl}}/booking/{{profileId}}/services/3
+Authorization: Bearer {{login.response.body.data.access_token}}
+
+### 14. Get bookings with filters (PROTECTED)
+GET {{baseUrl}}/booking/{{profileId}}/bookings?status=confirmed&date=2026-02-01
+Authorization: Bearer {{login.response.body.data.access_token}}

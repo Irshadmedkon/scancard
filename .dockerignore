@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+*.md
+logs/*.log
+uploads/*
+!uploads/.gitkeep
+.vscode
+.idea
+*.zip
+test-*.js
+check-*.js
+*.http

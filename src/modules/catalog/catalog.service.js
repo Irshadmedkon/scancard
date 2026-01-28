@@ -202,6 +202,9 @@ class CatalogService {
     try {
       const { query: searchQuery, category, limit = 20 } = filters;
       
+      // Convert limit to integer
+      const limitNum = parseInt(limit) || 20;
+      
       let sql = 'SELECT * FROM product_catalog WHERE profile_id = ? AND is_active = TRUE';
       const params = [profileId];
 
@@ -216,8 +219,8 @@ class CatalogService {
         params.push(category);
       }
 
-      sql += ' ORDER BY created_at DESC LIMIT ?';
-      params.push(parseInt(limit));
+      // Use string concatenation for LIMIT instead of prepared statement parameter
+      sql += ` ORDER BY created_at DESC LIMIT ${limitNum}`;
 
       logger.info('Search products query', { sql, params, profileId, filters });
 

@@ -21,16 +21,25 @@ app.use(helmet({
 // CORS configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['*'];
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman, or file://)
+    if (!origin) return callback(null, true);
+    
+    // Allow all origins if * is specified
+    if (allowedOrigins.includes('*')) return callback(null, true);
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+    
+    callback(null, true); // Allow all for development
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  maxAge: 86400 // 24 hours
 }));
 
 // Body parsing middleware
@@ -45,12 +54,24 @@ app.use(compression());
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Serve frontend files
+app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
+
 // Request logging
 app.use(requestLogger);
 app.use(requestTimer);
 
-// Health check endpoint
+// Health check endpoints
 app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Server is healthy',
